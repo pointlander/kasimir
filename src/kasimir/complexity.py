@@ -15,7 +15,13 @@ import math
 
 import numpy as np
 
-from .spectral import information_1d, information_3d, modular_temperature, theta_1d_mode_spacing
+from .spectral import (
+    BC1D,
+    information_1d,
+    information_3d,
+    modular_temperature,
+    theta_1d_mode_spacing,
+)
 
 
 LN2 = math.log(2.0)
@@ -61,8 +67,10 @@ def split_3d(
     return theta, dimensionless_from_energy(energy, theta)
 
 
-def analytic_split_1d(a: float, hbar: float = 1.0, c: float = 1.0) -> tuple[float, float]:
-    return theta_1d_mode_spacing(a, hbar=hbar, c=c), information_1d(a)
+def analytic_split_1d(
+    a: float, hbar: float = 1.0, c: float = 1.0, bc: BC1D = "dd"
+) -> tuple[float, float]:
+    return theta_1d_mode_spacing(a, hbar=hbar, c=c), information_1d(a, bc=bc)
 
 
 def analytic_split_3d(

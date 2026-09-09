@@ -8,7 +8,7 @@
 
 Assume a single physical postulate: complete field histories \(\varphi\) are distributed according to the Solomonoff–Levin semimeasure \(\mu(\varphi)\propto 2^{-K(\varphi)}\), equivalently a Tadaki–Baez–Stay algorithmic-thermodynamic ensemble with energy identified to prefix complexity \(K\). Restricting to local, Gaussian, Lorentz-invariant typical sets, this measure coincides with the Euclidean path integral of a free field. Material boundaries are conditionings of that measure. The marginal on a slow geometric modulus \(a\) (plate separation) is the constrained partition function, and the algorithmic free energy \(F_K(a)\) equals the Casimir free energy.
 
-In \(1{+}1\) dimensions the renormalised complexity deficit of a Dirichlet interval is the spectral invariant \(1/24\) nat, and the only available conversion scale is \(\hbar\pi c/a\); their product is the exact Casimir energy \(-\hbar\pi c/(24a)\). In \(3{+}1\) dimensions the deficit is an area law \(I_K(a)=-(\pi^{3}/360)\,A/a^{2}\) nats once energy is measured in units of the modular scale \(\hbar c/(2\pi a)\); the product rule \(E=\Theta I_K\) then yields
+In \(1{+}1\) dimensions the renormalised complexity deficit of a Dirichlet interval is the spectral invariant \(1/24\) nat, and the only available conversion scale is \(\hbar\pi c/a\); their product is the exact Casimir energy \(-\hbar\pi c/(24a)\). Mixed Dirichlet–Neumann walls flip the Hurwitz sign of that invariant, \(\zeta(-1,\tfrac12)=+1/24\), and the same conversion produces a repulsive energy \(+\hbar\pi c/(48a)\). In \(3{+}1\) dimensions the deficit is an area law \(I_K(a)=-(\pi^{3}/360)\,A/a^{2}\) nats once energy is measured in units of the modular scale \(\hbar c/(2\pi a)\); the product rule \(E=\Theta I_K\) then yields
 
 \[
 \frac{E}{A}=-\frac{\pi^{2}\hbar c}{720\,a^{3}}\,,\qquad
@@ -171,7 +171,7 @@ F_{\mathrm{force}}(a)\;=\;-\frac{\partial E_{\mathrm{vac}}}{\partial a}\,,
 
 which is Casimir’s force, derived as a marginal of Postulate K.
 
-The sign is not a priori attractive. \(Z(a)\) can increase or decrease with \(a\) according to the spectrum of \(-\Delta_{C_a}\). Parallel perfect conductors in flat space decrease \(E_{\mathrm{vac}}\) as \(a\) decreases (after subtraction of Section 8); mixed Dirichlet–Neumann plates, certain metamaterials, and some closed cavities do the opposite [18]. Low-\(K\) preference does not mean “everything clumps.” It means the geometric modulus runs down the slope of the constrained measure.
+The sign is not a priori attractive. \(Z(a)\) can increase or decrease with \(a\) according to the spectrum of \(-\Delta_{C_a}\). Parallel perfect conductors in flat space decrease \(E_{\mathrm{vac}}\) as \(a\) decreases (after subtraction of Section 8); mixed Dirichlet–Neumann plates (Section 6), certain metamaterials, and some closed cavities do the opposite [18]. Low-\(K\) preference does not mean “everything clumps.” It means the geometric modulus runs down the slope of the constrained measure.
 
 ---
 
@@ -211,9 +211,43 @@ comes from the conversion scale \(\Theta_{1\mathrm{D}}\), not from a changing bi
 
 That is the cleanest statement of the theory: **Casimir energy is a dimensionless Kolmogorov deficit, converted to Joules by the only infrared scale the constraint provides.**
 
-The lattice check is Appendix A and `src/kasimir/lattice.py`. A harmonic chain with Dirichlet ends, continuum speed \(c=1\), yields a finite part \(E_{\mathrm{C}}(n)\times(n+1)\to-\pi/24\) as \(n\to\infty\).
+### Mixed boundaries: the repulsive \(+1/24\)
 
-![1D lattice history complexity versus snapshot complexity](../figures/1d-lattice.png)
+Replace the right-hand wall by a Neumann condition, \(\varphi'(a)=0\). The frequencies become \(\omega_n=(n+\tfrac12)\pi c/a\), \(n=0,1,2,\ldots\), and the spectral sum is the Hurwitz zeta [18],
+
+\[
+\sum_{n=0}^{\infty}\Bigl(n+\tfrac12\Bigr)
+=\zeta\bigl(-1,\tfrac12\bigr)
+=(2^{-1}-1)\zeta(-1)
+=+\frac{1}{24}\,.
+\tag{15}
+\]
+
+The same oscillator factor \(\hbar/2\) that turned \(\zeta(-1)=-1/12\) into \(I_K=-1/24\) now turns this \(+1/24\) into
+
+\[
+E_{\mathrm{DN}}(a)
+=\frac{\hbar\pi c}{2a}\cdot\frac{1}{24}
+=+\frac{\hbar\pi c}{48a}
+=\Theta_{1\mathrm{D}}(a)\cdot I_{\mathrm{DN}}\,,
+\qquad
+I_{\mathrm{DN}}=+\frac{1}{48}\,\text{nat}.
+\tag{16}
+\]
+
+The energy is positive and falls as \(a\) grows, so
+
+\[
+F_{\mathrm{DN}}(a)=-\frac{\partial E_{\mathrm{DN}}}{\partial a}=+\frac{\hbar\pi c}{48a^{2}}
+\]
+
+is repulsive. In CFT language the mixed boundary inserts a boundary-condition-changing operator of weight \(h=1/16\); the cylinder energy \(-\pi c_{\mathrm{CFT}}/(24a)+\pi h/a\) is exactly \(+\pi/(48a)\) for \(c_{\mathrm{CFT}}=1\) [19].
+
+Postulate K does not flip. The constrained measure of DN histories *decreases* as the walls close, so the thermodynamic force on the modulus points outward. The \(1/24\) is the same spectral invariant, with the opposite Hurwitz sign; the extra \(2\) in the denominator of \(I_{\mathrm{DN}}\) is the universal \(\hbar/2\).
+
+The lattice check is Appendix A and `src/kasimir/lattice.py`. A harmonic chain with Dirichlet ends yields a finite part \(\gamma\to-\pi/24\); the same chain with a Neumann far end yields \(\gamma\to+\pi/48\). Snapshot complexity remains logarithmic in \(a\) for both.
+
+![1D lattice: DD attraction, DN repulsion, and snapshot \(\log a\)](../figures/1d-lattice.png)
 
 ---
 
@@ -225,16 +259,16 @@ For the electromagnetic field between parallel perfect conductors of area \(A\) 
 \frac{E}{A}=-\frac{\pi^{2}\hbar c}{720\,a^{3}}\,,
 \qquad
 \frac{F}{A}=-\frac{\pi^{2}\hbar c}{240\,a^{4}}\,.
-\tag{15}
+\tag{17}
 \]
 
-(The scalar Dirichlet slab is half of this, \(-\pi^{2}\hbar c/(1440 a^{3})\) per unit area; two physical polarisations restore (15).)
+(The scalar Dirichlet slab is half of this, \(-\pi^{2}\hbar c/(1440 a^{3})\) per unit area; two physical polarisations restore (17).)
 
 Dimensional analysis from Postulate K is immediate. The only dimensionless information that a gap of width \(a\) can support on an area \(A\), after bulk (\(\propto Aa\)) and surface (\(\propto A\)) terms are subtracted, is an area law in units of \(a^{2}\):
 
 \[
 I_K(a)\;=\;\gamma\,\frac{A}{a^{2}}\,.
-\tag{16}
+\tag{18}
 \]
 
 The only energy-per-nat available from the gap is \(\Theta(a)\propto\hbar c/a\). Their product is \(E\propto\hbar c A/a^{3}\), and \(F=-\partial E/\partial a\propto\hbar c A/a^{4}\). This is the \(1/a^{4}\) law, before any zeta function is evaluated.
@@ -243,14 +277,14 @@ To fix \(\gamma\) one must choose the conversion scale. The natural choice from 
 
 \[
 \Theta(a)\;=\;\frac{\hbar c}{2\pi a}\,.
-\tag{17}
+\tag{19}
 \]
 
-(The lowest Dirichlet mode \(\hbar\pi c/a\) differs by \(2\pi^{2}\) and merely rescales \(\gamma\).) Then \(E=\Theta I_K\) and (15) give
+(The lowest Dirichlet mode \(\hbar\pi c/a\) differs by \(2\pi^{2}\) and merely rescales \(\gamma\).) Then \(E=\Theta I_K\) and (17) give
 
 \[
 I_K(a)\;=\;-\frac{\pi^{3}}{360}\,\frac{A}{a^{2}}\,\text{nat}.
-\tag{18}
+\tag{20}
 \]
 
 The product rule is required for thermodynamic consistency. With \(\Theta\propto a^{-1}\) and \(I_K\propto a^{-2}\),
@@ -259,7 +293,7 @@ The product rule is required for thermodynamic consistency. With \(\Theta\propto
 \frac{\partial E}{\partial a}
 =\frac{\partial\Theta}{\partial a}\,I_K+\Theta\frac{\partial I_K}{\partial a}
 =-\frac{3E}{a}\,,
-\tag{19}
+\tag{21}
 \]
 
 which is the Euler identity for a \(1/a^{3}\) energy and produces the factor \(3\) that turns \(720\) into \(240\). Dropping the \(\partial\Theta/\partial a\) term and absorbing it into a different \(\gamma\) (namely \(\pi^{3}/240\)) writes the *force* as \(\Theta\,\partial I/\partial a\) [14]; that is a packaging, not a different theory.
@@ -276,7 +310,7 @@ Let \(\{\omega_k(a)\}\) be the eigenfrequencies of the constrained field. The sp
 
 \[
 \zeta_a(s)\;=\;\sum_k\bigl(\omega_k(a)/c\bigr)^{-s}.
-\tag{20}
+\tag{22}
 \]
 
 Three values are three different Kolmogorov-type quantities:
@@ -287,17 +321,17 @@ Three values are three different Kolmogorov-type quantities:
 | \(-\zeta'(0)\) | \(\sum\log\omega\) | typical snapshot complexity / \(\log\det\Sigma\) |
 | \(\zeta(-1)\) | \(\sum\omega\) | history-complexity *rate* / vacuum energy |
 
-Casimir physics is the third row. Zeta regularisation is the analytic continuation of (20) to \(s=-1\). It is not an arbitrary regulator: it is the unique meromorphic extension of the complexity-generating function.
+Casimir physics is the third row. Zeta regularisation is the analytic continuation of (22) to \(s=-1\). It is not an arbitrary regulator: it is the unique meromorphic extension of the complexity-generating function.
 
 Heat-kernel subtraction says the same thing in the dual variable \(t\). The small-\(t\) expansion
 
 \[
 \mathrm{Tr}\,e^{-t\Delta}
 =\frac{\mathrm{Vol}}{(4\pi t)^{3/2}}+\frac{\mathrm{Area}}{16\pi t}+\cdots
-\tag{21}
+\tag{23}
 \]
 
-is a sum of *local* geometric invariants [21]. Each such term is the output of a short program that inspects the metric and the boundary in a neighbourhood of a point and writes a Lagrangian density. In the MDL accounting of Section 4 those programs are already part of \(K(\text{the model})\). They do not depend on the global modulus \(a\) except through extensive quantities \(\mathrm{Vol}=Aa\) and \(\mathrm{Area}=A\), which are independent of how the plates are *placed* as long as they are not deformed [22]. Rigid motion of the plates therefore does not source a force from the divergent terms. What remains after (21) is subtracted is the image sum (or the multiple-reflection determinant), which is nonlocal at scale \(a\) and cannot be written as a short local program. That remainder is \(\kappa(a)\).
+is a sum of *local* geometric invariants [21]. Each such term is the output of a short program that inspects the metric and the boundary in a neighbourhood of a point and writes a Lagrangian density. In the MDL accounting of Section 4 those programs are already part of \(K(\text{the model})\). They do not depend on the global modulus \(a\) except through extensive quantities \(\mathrm{Vol}=Aa\) and \(\mathrm{Area}=A\), which are independent of how the plates are *placed* as long as they are not deformed [22]. Rigid motion of the plates therefore does not source a force from the divergent terms. What remains after (23) is subtracted is the image sum (or the multiple-reflection determinant), which is nonlocal at scale \(a\) and cannot be written as a short local program. That remainder is \(\kappa(a)\).
 
 This is why Casimir energy *differences* under rigid motion are finite without renormalisation [22], and why a low-\(K\) universe “pays for” the cosmological-constant-like bulk once, in the specification of the laws, rather than at every plate separation.
 
@@ -309,7 +343,7 @@ The unsubtracted complexity production of a region of volume \(V\) with UV cutof
 
 \[
 \kappa_{\mathrm{bulk}}\;\sim\;\hbar c\,\Lambda^{4}\,V\,.
-\tag{22}
+\tag{24}
 \]
 
 Postulate K applied to this term without subtraction would collapse every cavity to zero volume with Planckian pressure. That is the cosmological-constant problem, restated as a complexity problem.
@@ -319,7 +353,7 @@ Two standard escapes remain available, and both have AIT readings.
 - *Local counterterms are part of the model.* Specifying Einstein’s equation with a bare \(\Lambda_{\mathrm{bare}}\) is a short program. The renormalised \(\Lambda_{\mathrm{phys}}\) is whatever that program plus the UV completion produce. Casimir experiments do not measure \(\Lambda_{\mathrm{phys}}\); they measure the *nonlocal* remainder of Section 8. This is the QFT answer, and Postulate K does not improve it.
 - *Holographic bound as a complexity bound.* Bekenstein–Hawking / Bousso gives \(K\le A/(4\ell_P^{2}\ln 2)\) bits for a region of area \(A\) [23,24]. Volume-extensive complexity is forbidden. The leading allowed term is an area law, and the Casimir remainder \(\propto A/a^{2}\) is of that form with the IR scale \(a\) replacing \(\ell_P\). On this reading the cosmological constant is small because complexity is holographic, and the Casimir effect is the IR, boundary-conditioned piece of the same area law.
 
-The second reading is speculative. It is consistent with Postulate K and with the area law (18). It is not derived here.
+The second reading is speculative. It is consistent with Postulate K and with the area law (20). It is not derived here.
 
 ---
 
@@ -329,7 +363,7 @@ The second reading is speculative. It is consistent with Postulate K and with th
 
 **Real materials.** Perfect-conductor boundary conditions are the MDL model “field vanishes here.” A real metal is a short program specifying a linear response \(\varepsilon(i\xi)\). The constrained covariance is the fluctuating-dissipation covariance of Lifshitz theory, and \(\kappa(a)\) becomes the Lifshitz free energy. There is no new force at this level.
 
-**Repulsion.** Mixed Dirichlet–Neumann plates, a conducting sphere and a dielectric plate of suitable \(\varepsilon\), and several closed geometries have \(E_{\mathrm{Casimir}}>0\) or a locally positive slope [18,25]. Postulate K predicts repulsion wherever the constrained measure *decreases* as the modulus decreases. The theory is not “attraction from simplicity”; it is “motion along \(\nabla\kappa\).”
+**Repulsion.** Mixed Dirichlet–Neumann plates (Section 6), a conducting sphere and a dielectric plate of suitable \(\varepsilon\), and several closed geometries have \(E_{\mathrm{Casimir}}>0\) or a locally positive slope [18,25]. Postulate K predicts repulsion wherever the constrained measure *decreases* as the modulus decreases. The 1D calculation is the existence proof: same \(\Theta\), Hurwitz sign flip of the \(1/24\), force outward. The theory is not “attraction from simplicity”; it is “motion along \(\nabla\kappa\).”
 
 **Dynamical Casimir.** A time-dependent constraint \(C_{a(t)}\) with \(\dot a\) not adiabatic relative to \(c/a\) maps the old vacuum program to a state that is no longer the ground state of the new Hamiltonian. The mismatch is a collection of real photons [26]. In AIT language a non-adiabatic change of conditioner injects complexity the short vacuum program cannot absorb; the excess is particle production. Energy bookkeeping is the same as in QFT: the work done on the plates pays for the photons.
 
@@ -361,7 +395,7 @@ The dictionary is rigid enough to be wrong in interesting ways:
 - If the right complexity had been \(K(\text{the state})\) or \(K(a)\), there would be no \(1/a^{4}\) law at all.
 - If heat-kernel terms were *not* Kolmogorov-local, rigid plate motion would couple to the bulk vacuum energy and Casimir experiments would measure the cosmological constant. They do not.
 
-What the plates are doing, on this view, is not harvesting zero-point energy. They are sliding down the gradient of the measure of field histories consistent with their presence. Closer parallel conductors make the cheapest typical histories cheaper still — in one dimension by raising the energy-per-nat of a fixed \(1/24\)-nat deficit; in three dimensions by shrinking the cell in which a \(\pi^{3}/360\) nat-per-cell area law is converted at the modular scale \(\hbar c/(2\pi a)\).
+What the plates are doing, on this view, is not harvesting zero-point energy. They are sliding down the gradient of the measure of field histories consistent with their presence. Closer parallel conductors make the cheapest typical histories cheaper still — in one dimension by raising the energy-per-nat of a fixed \(1/24\)-nat deficit. Mixed Dirichlet–Neumann walls reverse the Hurwitz sign, and the same mechanism pushes them apart. In three dimensions the cell of a \(\pi^{3}/360\) nat-per-cell area law shrinks, converted at the modular scale \(\hbar c/(2\pi a)\).
 
 The cosmological-constant problem is the same mechanism without the subtraction of Section 8. Whether holography is the right subtraction for spacetime itself is left open. For laboratory Casimir physics it is not needed: rigid motion is enough to kill the local terms, and what remains is \(\kappa(a)\).
 
@@ -385,6 +419,15 @@ E(n)=\varepsilon_\infty(n+1)+\varepsilon_{\mathrm{surf}}+\frac{\gamma}{n+1}+O(n^
 
 with \(\varepsilon_\infty=2/\pi\), \(\varepsilon_{\mathrm{surf}}=\zeta(0)=-1/2\), and \(\gamma\to-\pi/24\). A least-squares fit on \(n=40,\ldots,240\) returns \(\gamma=-0.130897\) against \(-\pi/24=-0.130900\). The same module reports the snapshot complexity \(\tfrac12\sum\log(1/\omega_j)\), which fits \(c_0+c_1\log a\) with \(c_1=-1/4\) to machine precision and does *not* reproduce \(\gamma\). That \(-1/4\) is \(\zeta'(0)\) for the interval, confirming the table of Section 3.
 
+A Dirichlet–Neumann chain of \(n\) sites (Neumann at the last site: the last diagonal of the Laplacian is \(1\), not \(2\)) has frequencies
+
+\[
+\omega_j=2\sin\Bigl(\frac{(j+\tfrac12)\pi}{2n+1}\Bigr)\,,\qquad j=0,\ldots,n-1,
+\tag{A3}
+\]
+
+continuum length \(a=n+\tfrac12\), and \(\omega_j\to(j+\tfrac12)\pi/a\). The same bulk subtraction yields \(\gamma\to+\pi/48\). The fit returns \(\gamma=0.065448\) against \(\pi/48=0.065450\).
+
 ---
 
 ## Appendix B. Gaussian coding lemma
@@ -407,7 +450,7 @@ For a Euclidean history the covariance is \(\hbar(-\Delta)^{-1}\) on the full sp
 
 1. **Histories, not snapshots, not states.** The complexity that equals Casimir energy is the production *rate* of typical Euclidean records, spectral moment \(\zeta(-1)\). Snapshot complexity is \(\zeta'(0)\) and has the wrong gap scaling. This is the central modelling choice; everything else follows from it.
 2. **Action is the large-scale proxy for \(K\).** Once typical sets are local and Gaussian, Postulate K *is* the Euclidean path integral, with \(\hbar\) converting nats to action. No extra algorithmic temperature is fitted to Casimir data.
-3. **Boundaries condition; they do not modify the prior.** The force is a thermodynamic force in the marginal on the modulus \(a\). Repulsion is allowed.
+3. **Boundaries condition; they do not modify the prior.** The force is a thermodynamic force in the marginal on the modulus \(a\). Repulsion is allowed and is realised by Dirichlet–Neumann walls: the same \(1/24\) spectral invariant, opposite Hurwitz sign, \(I_K=+1/48\).
 4. **Zeta / heat-kernel subtraction is Kolmogorov-locality.** Bulk and surface divergences are short local programs (part of the laws). Rigid motion isolates the nonlocal remainder \(\kappa(a)\).
 5. **Conversion scale is modular.** \(\Theta=\hbar c/(2\pi a)\) is a convention that sets the split \(E=\Theta I_K\); the invariant is \(\kappa(a)=E_{\mathrm{Casimir}}(a)\). The coefficient \(\pi^{3}/360\) belongs to that split.
 6. **No claim of a near-term QED violation.** Distinctive predictions (algorithmic roughness, \(O(1)\) nats, commensurability) are stated as such and estimated to be small for macroscopic plates.
@@ -417,7 +460,7 @@ For a Euclidean history the covariance is \(\hbar(-\Delta)^{-1}\) on the full sp
 ## Open questions
 
 - *Gravity.* Is the holographic bound the bulk-complexity cutoff, and does that give a Casimir-type derivation of \(\Lambda_{\mathrm{phys}}\)? (Section 9.)
-- *Interacting analog systems.* Can a \(1{+}1\) CFT engine (e.g. a quantum wire or a trapped Tonks gas between movable barriers) measure the \(1/24\)-nat invariant independently of the conversion scale, by varying \(a\) and \(c_{\mathrm{CFT}}\) separately?
+- *Interacting analog systems.* Can a \(1{+}1\) CFT engine (e.g. a quantum wire or a trapped Tonks gas between movable barriers) measure the \(1/24\)-nat invariant independently of the conversion scale, by varying \(a\) and \(c_{\mathrm{CFT}}\) separately, and see the DN sign flip?
 - *Reference machine as UV completion.* Does a concrete Planck-scale computational substrate (causal-set dynamics, quantum-circuit cosmology, Wolfram rewriting) produce a measurable \(c_U\) in a single-mode cavity?
 - *Roughness experiment.* What is the smallest gap and the cheapest fabrication path for a pair of surfaces that match in height power spectrum and differ substantially in \(K(\text{height map})\)?
 
@@ -431,6 +474,7 @@ This repository is a theory-plus-computation project, not a multi-service applic
 2. **PR: spectral core** — `src/kasimir/spectral.py`, exact 1D/3D formulae, \(E=\Theta I_K\) reconstruction, unit tests against \(\pi/24\) and \(\pi^{2}/720\). Depends on (1) only for documentation pointers.
 3. **PR: 1D lattice** — `src/kasimir/lattice.py`, continuum extrapolation of \(\gamma\), snapshot-versus-history comparison, tests. Depends on (2).
 4. **PR: figures and README** — `scripts/plot_theory.py`, `figures/`, `README.md`. Depends on (2) and (3).
+5. **PR: DN repulsion** — mixed Dirichlet–Neumann 1D spectrum, lattice \(\gamma\to+\pi/48\), sign-flip panel. Depends on (3).
 
 ---
 

@@ -27,12 +27,32 @@ def test_3d_prefactors():
     assert f == pytest.approx(3.0 * e / a, rel=1e-12)
 
 
+def test_1d_dn_energy_and_force_repulsive():
+    a = 0.37
+    e = spectral.energy_1d_dirichlet_neumann(a)
+    assert e == pytest.approx(math.pi / (48.0 * a))
+    assert e > 0
+    da = 1e-6
+    f_num = -(
+        spectral.energy_1d_dirichlet_neumann(a + da)
+        - spectral.energy_1d_dirichlet_neumann(a - da)
+    ) / (2 * da)
+    assert spectral.force_1d_dirichlet_neumann(a) == pytest.approx(f_num, rel=1e-8)
+    assert spectral.force_1d_dirichlet_neumann(a) > 0
+
+
 def test_1d_reconstruction():
     for a in (0.2, 1.0, 7.5):
         assert spectral.reconstruct_energy(a, dim=1) == pytest.approx(
             spectral.energy_1d_dirichlet(a), rel=1e-12
         )
         assert spectral.information_1d() == pytest.approx(-1.0 / 24.0)
+        assert spectral.reconstruct_energy(a, dim=1, bc="dn") == pytest.approx(
+            spectral.energy_1d_dirichlet_neumann(a), rel=1e-12
+        )
+        assert spectral.information_1d(bc="dn") == pytest.approx(1.0 / 48.0)
+        f_rec = spectral.reconstruct_force(a, dim=1, bc="dn")
+        assert f_rec == pytest.approx(spectral.force_1d_dirichlet_neumann(a), rel=1e-5)
 
 
 def test_3d_reconstruction_product_rule():
@@ -60,3 +80,7 @@ def test_rejects_nonpositive():
         spectral.energy_3d_em(-1.0)
     with pytest.raises(ValueError):
         spectral.reconstruct_energy(1.0, dim=2)  # type: ignore[arg-type]
+    with pytest.raises(ValueError):
+        spectral.energy_1d_dirichlet_neumann(0.0)
+    with pytest.raises(ValueError):
+        spectral.information_1d(bc="nn")  # type: ignore[arg-type]

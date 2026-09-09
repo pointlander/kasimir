@@ -22,10 +22,13 @@ Exact coefficients come from identifying \(\kappa\) with the spectral moment \(\
 
 | geometry | information \(I_K\) | conversion \(\Theta\) | energy |
 |---|---|---|---|
-| 1D Dirichlet interval | \(-1/24\) nat | \(\hbar\pi c/a\) | \(-\hbar\pi c/(24a)\) |
+| 1D Dirichlet–Dirichlet | \(-1/24\) nat | \(\hbar\pi c/a\) | \(-\hbar\pi c/(24a)\) (attractive) |
+| 1D Dirichlet–Neumann | \(+1/48\) nat | \(\hbar\pi c/a\) | \(+\hbar\pi c/(48a)\) (repulsive) |
 | 3D EM parallel plates | \(-\frac{\pi^{3}}{360}\,A/a^{2}\) nats | \(\hbar c/(2\pi a)\) | \(-\pi^{2}\hbar c A/(720 a^{3})\) |
 
-The \(1/24\) is the same invariant as the CFT Casimir coefficient. In one dimension it does not even depend on \(a\): the walls do not “remove bits as they close”; they raise the value of a fixed deficit.
+The DD \(1/24\) is the CFT Casimir coefficient. DN is the same spectral family: Hurwitz \(\zeta(-1,\tfrac12)=+1/24\), times the oscillator \(\hbar/2\), gives \(I_K=+1/48\). Low-\(K\) preference does not mean attraction; the DN constrained measure shrinks as the walls close, so the force points outward.
+
+In one dimension the information does not even depend on \(a\): the walls do not “remove bits as they close”; they change the value of a fixed deficit.
 
 Heat-kernel / zeta subtraction is Kolmogorov-locality: bulk \(\Lambda^{4}V\) and surface terms are short local programs (part of the laws). Rigid plate motion does not couple to them, which is why Casimir experiments do not measure the cosmological constant.
 
@@ -37,7 +40,7 @@ pytest -q
 python -m kasimir.plots --out figures
 ```
 
-- `figures/1d-lattice.png` — a Dirichlet harmonic chain extrapolates to \(-\pi/24a\). The snapshot-complexity proxy tracks \(\log a\) instead.
+- `figures/1d-lattice.png` — DD chain \(\to-\pi/24a\) (attractive); DN chain \(\to+\pi/48a\) (repulsive). Snapshot-complexity proxy tracks \(\log a\) instead.
 - `figures/reconstruction.png` — \(E=\Theta I_K\) and \(F=-d(\Theta I_K)/da\) recover \(\pi^{2}/720\) and \(\pi^{2}/240\).
 - `figures/quiet-cavity.png` — typical Gaussian-free-field snapshots with Dirichlet walls. The cavity is quieter; that is \(\langle\varphi^{2}\rangle\), not the energy the plates feel.
 

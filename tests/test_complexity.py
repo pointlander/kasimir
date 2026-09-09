@@ -24,6 +24,11 @@ def test_1d_split_recovers_one_over_24():
     theta, i = complexity.split_1d(a, e)
     assert i == pytest.approx(-1.0 / 24.0)
     assert theta * i == pytest.approx(e)
+    e_dn = spectral.energy_1d_dirichlet_neumann(a)
+    theta_dn, i_dn = complexity.split_1d(a, e_dn)
+    assert i_dn == pytest.approx(1.0 / 48.0)
+    assert theta_dn * i_dn == pytest.approx(e_dn)
+    assert complexity.analytic_split_1d(a, bc="dn")[1] == pytest.approx(1.0 / 48.0)
 
 
 def test_3d_split_recovers_gamma():

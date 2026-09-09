@@ -15,36 +15,53 @@ def _save(fig, path: Path) -> None:
     fig.savefig(path, dpi=160, bbox_inches="tight")
 
 
+def _finite_casimir(ns: list[int], bc: lattice.BC) -> tuple[np.ndarray, np.ndarray]:
+    a = np.array([lattice.interval_length(n, bc=bc) for n in ns], dtype=float)
+    e = np.array([lattice.vacuum_energy(n, bc=bc) for n in ns])
+    finite = e - lattice.bulk_energy_density() * a
+    lim = lattice.extrapolate_gamma(list(range(40, 161, 5)), bc=bc)
+    return a, finite - lim.intercept
+
+
 def plot_1d_lattice(out: Path) -> None:
     import matplotlib.pyplot as plt
 
     ns = list(range(8, 161))
-    a = np.array([n + 1 for n in ns], dtype=float)
-    e = np.array([lattice.vacuum_energy(n) for n in ns])
-    finite = e - lattice.bulk_energy_density() * a
-    # strip the fitted intercept so the 1/a piece is visible
-    lim = lattice.extrapolate_gamma(list(range(40, 161, 5)))
-    casimir = finite - lim.intercept
-    analytic = np.array([spectral.energy_1d_dirichlet(ai) for ai in a])
+    a_dd, casimir_dd = _finite_casimir(ns, "dd")
+    a_dn, casimir_dn = _finite_casimir(ns, "dn")
+    analytic_dd = np.array([spectral.energy_1d_dirichlet(ai) for ai in a_dd])
+    analytic_dn = np.array([spectral.energy_1d_dirichlet_neumann(ai) for ai in a_dn])
 
-    fig, axes = plt.subplots(1, 2, figsize=(9.2, 3.6))
+    fig, axes = plt.subplots(1, 3, figsize=(11.4, 3.6))
 
     ax = axes[0]
-    ax.plot(a, casimir, color="#1f4e79", lw=1.8, label="lattice, bulk+surface subtracted")
-    ax.plot(a, analytic, color="#c44e52", ls="--", lw=1.6, label=r"$-\pi/(24a)$")
-    ax.set_xlabel("interval length $a = n+1$")
+    ax.plot(a_dd, casimir_dd, color="#1f4e79", lw=1.8, label="lattice, subtracted")
+    ax.plot(a_dd, analytic_dd, color="#c44e52", ls="--", lw=1.6, label=r"$-\pi/(24a)$")
+    ax.set_xlabel("interval length $a$")
     ax.set_ylabel("complexity production rate $\\kappa(a)$")
-    ax.set_title("1D history complexity = Casimir energy")
+    ax.set_title("DD: $I_K=-1/24$, attractive")
     ax.legend(frameon=False, fontsize=8)
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
 
     ax = axes[1]
+    ax.plot(a_dn, casimir_dn, color="#1f4e79", lw=1.8, label="lattice, subtracted")
+    ax.plot(a_dn, analytic_dn, color="#c44e52", ls="--", lw=1.6, label=r"$+\pi/(48a)$")
+    ax.axhline(0.0, color="#bbbbbb", lw=0.8)
+    ax.set_xlabel("interval length $a$")
+    ax.set_title(r"DN: $\zeta(-1,\frac{1}{2})=+1/24$, repulsive")
+    ax.legend(frameon=False, fontsize=8)
+    ax.spines["top"].set_visible(False)
+    ax.spines["right"].set_visible(False)
+
+    ax = axes[2]
     snap = np.array([lattice.snapshot_logdet(n) for n in ns])
     c0, c1 = lattice.snapshot_scaling(list(range(40, 161, 5)))
-    ax.plot(a, snap, color="#1f4e79", lw=1.8, label="snapshot $K$ proxy")
-    ax.plot(a, c0 + c1 * np.log(a), color="#c44e52", ls="--", lw=1.6, label=r"$c_0 + c_1\log a$")
-    ax.set_xlabel("interval length $a = n+1$")
+    ax.plot(a_dd, snap, color="#1f4e79", lw=1.8, label="snapshot $K$ proxy")
+    ax.plot(
+        a_dd, c0 + c1 * np.log(a_dd), color="#c44e52", ls="--", lw=1.6, label=r"$c_0+c_1\log a$"
+    )
+    ax.set_xlabel("interval length $a$")
     ax.set_ylabel(r"$\frac{1}{2}\sum\log(1/\omega_j)$")
     ax.set_title("Snapshot complexity is logarithmic")
     ax.legend(frameon=False, fontsize=8)
