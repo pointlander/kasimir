@@ -1,0 +1,62 @@
+import math
+
+import numpy as np
+import pytest
+
+from kasimir import spectral
+
+
+def test_1d_energy_and_force_consistent():
+    a = 0.37
+    e = spectral.energy_1d_dirichlet(a)
+    assert e == pytest.approx(-math.pi / (24.0 * a))
+    da = 1e-6
+    f_num = -(spectral.energy_1d_dirichlet(a + da) - spectral.energy_1d_dirichlet(a - da)) / (
+        2 * da
+    )
+    assert spectral.force_1d_dirichlet(a) == pytest.approx(f_num, rel=1e-8)
+
+
+def test_3d_prefactors():
+    a, area = 0.5, 2.0
+    e = spectral.energy_3d_em(a, area=area)
+    assert e == pytest.approx(-(math.pi**2) * area / (720.0 * a**3))
+    f = spectral.force_3d_em(a, area=area)
+    assert f == pytest.approx(-(math.pi**2) * area / (240.0 * a**4))
+    # Euler: F = -dE/da = 3 E / a  (both negative; 3|E|/a = |F|)
+    assert f == pytest.approx(3.0 * e / a, rel=1e-12)
+
+
+def test_1d_reconstruction():
+    for a in (0.2, 1.0, 7.5):
+        assert spectral.reconstruct_energy(a, dim=1) == pytest.approx(
+            spectral.energy_1d_dirichlet(a), rel=1e-12
+        )
+        assert spectral.information_1d() == pytest.approx(-1.0 / 24.0)
+
+
+def test_3d_reconstruction_product_rule():
+    area = 1.7
+    for a in (0.15, 0.8, 3.0):
+        rec = spectral.reconstruct_energy(a, dim=3, area=area)
+        assert rec == pytest.approx(spectral.energy_3d_em(a, area=area), rel=1e-12)
+        f_rec = spectral.reconstruct_force(a, dim=3, area=area)
+        assert f_rec == pytest.approx(spectral.force_3d_em(a, area=area), rel=1e-5)
+
+
+def test_gamma_coefficient():
+    # I_K = E / Θ = [π²/720 a³] / [1/(2π a)] = π³/360 a⁻²   (magnitudes)
+    a, area = 1.3, 2.0
+    theta = spectral.modular_temperature(a)
+    i = spectral.information_3d(a, area=area)
+    assert i == pytest.approx(spectral.GAMMA_3D * area / a**2)
+    assert theta * i == pytest.approx(spectral.energy_3d_em(a, area=area), rel=1e-12)
+
+
+def test_rejects_nonpositive():
+    with pytest.raises(ValueError):
+        spectral.energy_1d_dirichlet(0.0)
+    with pytest.raises(ValueError):
+        spectral.energy_3d_em(-1.0)
+    with pytest.raises(ValueError):
+        spectral.reconstruct_energy(1.0, dim=2)  # type: ignore[arg-type]
