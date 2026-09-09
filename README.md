@@ -38,6 +38,7 @@ Heat-kernel / zeta subtraction is Kolmogorov-locality: bulk \(\Lambda^{4}V\) and
 python -m pip install -e ".[dev]"
 pytest -q
 python -m kasimir.plots --out figures
+python paper/build_pdf.py          # writes paper/k-casimir.pdf
 ```
 
 - `figures/1d-lattice.png` — DD chain \(\to-\pi/24a\) (attractive); DN chain \(\to+\pi/48a\) (repulsive). Snapshot-complexity proxy tracks \(\log a\) instead.
