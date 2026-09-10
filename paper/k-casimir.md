@@ -413,15 +413,15 @@ is independent of \(a\) and of \(v\). That is the analog of Section 6: the walls
 
 **Protocol.**
 
-1. Prepare a single-mode Luttinger liquid of tunable length \(a\) and independently measured velocity \(v\): a Tonks–Girardeau gas in a box trap [30,31], or a quantum wire / cold-atom tube [32]. In the TG limit the microscopic Hamiltonian is free fermions, \(c_{\mathrm{CFT}}=1\), \(v=\pi\hbar\rho/m\).
+1. Prepare a single-mode Luttinger liquid of tunable length \(a\) and independently measured velocity \(v\): a Tonks–Girardeau gas in a box trap [30,31,33], or a quantum wire / cold-atom tube [32]. In the TG limit the microscopic Hamiltonian is free fermions, \(v=\pi\hbar\rho/m\).
 2. Measure the ground-state energy (or the low-\(T\) free energy, with \(k_BT\ll\hbar v/a\) so that (B4) is frozen) as a function of \(a\) at fixed density. Fit
    \[
    E(a)=e_{\mathrm{bulk}}a+e_{\mathrm{surf}}+\frac{A}{a}+O(a^{-3}).
    \]
    The bulk and surface terms are Kolmogorov-local in the sense of Section 8; \(A\) is \(\kappa a\).
-3. Form \(I_K=A/(\pi\hbar v)\). Vary \(a\). The result must be a flat line at \(-c_{\mathrm{CFT}}/24\) (same BCs).
-4. Vary \(c_{\mathrm{CFT}}\) at fixed \(a\): \(N_{\mathrm{ch}}\) parallel tubes, or \(N_{\mathrm{ch}}\) channels of a wire. Then \(I_K=-N_{\mathrm{ch}}/24\) (same BCs) or \(+N_{\mathrm{ch}}/48\) (mixed BCs, free-boson DN). A plot of \(I_K\) against \(N_{\mathrm{ch}}\) is a straight line through the origin.
-5. Flip one boundary from a node to an antinode of the phase field (hard wall \(\leftrightarrow\) vanishing derivative; in a wire, normal \(\leftrightarrow\) Andreev [32]). The sign of \(I_K\) must flip. That is the analog of Section 6 mixed boundaries, and it is the discriminator against a force that merely “prefers smaller boxes.”
+3. Form \(I_K=A/(\pi\hbar v)\). Vary \(a\). The result must be a flat line. Its value depends on the Hamiltonian, not only on the boundaries: a relativistic (linear) analog gives the CFT numbers of (25); a TG gas measured through its total kinetic energy gives the exact numbers of Appendix C.
+4. Vary the number of channels \(N_{\mathrm{ch}}\) at fixed \(a\). \(I_K\) is linear in \(N_{\mathrm{ch}}\) and passes through the origin.
+5. Flip one boundary from a node to an antinode (hard wall \(\leftrightarrow\) vanishing derivative; in a wire, normal \(\leftrightarrow\) Andreev [32]). The sign of \(I_K\) must flip. That is the analog of Section 6 mixed boundaries, and it is the discriminator against a force that merely “prefers smaller boxes.”
 
 Particle discreteness adds Friedel oscillations whose envelope is the continuum \(I_K\) [31]. Those oscillations are the analog of a UV-complete lattice; they are not a failure of Postulate K.
 
@@ -429,7 +429,7 @@ The theory side of the two plots is the 1D Helmholtz code already in the reposit
 
 ![Extracted \(I_K\) versus gap and versus central charge, DD and DN](../figures/analog-ik.png)
 
-This is not a QED test. It is a test that the dimensionless invariant isolated in Sections 6 and B.2 is an information, not an energy, and that mixed boundaries reverse it.
+This is not a QED test. It is a test that the dimensionless invariant isolated in Sections 6 and B.2 is an information, not an energy, and that mixed boundaries reverse it. Appendix C executes steps 2–3 on the exact TG Hamiltonian: the fit is exact at every \(N\), \(I_K\) is independent of \(\rho\), \(m\), and \(\hbar\), and the values are \(+1/12\) (DD) and \(-1/24\) (DN), not the relativistic \(-1/24\) and \(+1/48\). The protocol works. The Hamiltonian matters.
 
 ---
 
@@ -546,6 +546,56 @@ As \(T\to 0\) the sums vanish exponentially and (B4)–(B5) return Section 6. As
 
 ---
 
+## Appendix C. Tonks–Girardeau check of Section 12
+
+Girardeau’s mapping sends \(N\) hard-core bosons on an interval to \(N\) free fermions with the same energy [33]. The single-particle spectrum is quadratic, \(E_n=\hbar^{2}k_n^{2}/2m\), not linear. Section 12’s protocol still applies, at fixed density \(\rho=N/a\), and closes in closed form.
+
+**Dirichlet–Dirichlet** (nodes at both walls): \(k_n=n\pi/a\), \(n=1,\ldots,N\). The ground-state energy is
+
+\[
+E_{\mathrm{DD}}
+=\frac{\hbar^{2}\pi^{2}}{2ma^{2}}\sum_{n=1}^{N}n^{2}
+=\frac{\hbar^{2}\pi^{2}N(N+1)(2N+1)}{12ma^{2}}.
+\tag{C1}
+\]
+
+Substitute \(N=\rho a\):
+
+\[
+E_{\mathrm{DD}}
+=\frac{\pi^{2}\hbar^{2}\rho^{3}}{6m}\,a
++\frac{\pi^{2}\hbar^{2}\rho^{2}}{4m}
++\frac{\pi^{2}\hbar^{2}\rho}{12m}\,\frac{1}{a}.
+\tag{C2}
+\]
+
+There are no higher orders. Bulk and surface are local in the sense of Section 8. The remainder is \(A/a\) with \(A=\pi^{2}\hbar^{2}\rho/(12m)\). The Fermi velocity is \(v_F=\pi\hbar\rho/m\), so
+
+\[
+I_K^{\mathrm{DD}}
+=\frac{A}{\pi\hbar v_F}
+=+\frac{1}{12}.
+\tag{C3}
+\]
+
+**Dirichlet–Neumann** (node at one wall, antinode at the other): \(k_n=(n+\tfrac12)\pi/a\), \(n=0,\ldots,N-1\), and \(\sum(n+\tfrac12)^{2}=N(4N^{2}-1)/12\). The same substitution yields a vanishing surface term and
+
+\[
+I_K^{\mathrm{DN}}
+=-\frac{1}{24}.
+\tag{C4}
+\]
+
+Both invariants are independent of \(\rho\), \(m\), and \(\hbar\), and they are exact at every \(N\), not merely asymptotically. The Section 12 fit of \(E(a)\) at fixed \(\rho\) recovers them to machine precision (`src/kasimir/tonks.py`).
+
+These are not the relativistic CFT values of Section 6 (\(I_K=-1/24\) for DD, \(+1/48\) for DN). Quadratic dispersion contributes a non-universal \(1/a\) of the same order as the conformal piece; the microscopic kinetic energy does not bosonise to a purely linear Luttinger Hamiltonian at the level of the ground-state \(O(1/a)\). The analog experiment on a TG *total* energy therefore measures (C3)–(C4). The CFT numbers are recovered if the analog is linear (phonons, a quantum wire in the LL regime read through its effective Hamiltonian, or the relativistic chain of Appendix A).
+
+The protocol is Hamiltonian-independent in *form*: bulk, surface, \(A/a\), then \(I_K=A/(\pi\hbar v)\). The value of \(I_K\) is a property of the Hamiltonian and of the boundaries. Mixed BCs still change the sign relative to DD. That is the check.
+
+![TG extraction of \(I_K\) versus \(N\), and TG versus relativistic CFT](../figures/tonks-ik.png)
+
+---
+
 ## Key decisions
 
 1. **Histories, not snapshots, not states.** The complexity that equals Casimir energy is \(-\log\mu(C_a)\) per unit Euclidean time, i.e. the Helmholtz free energy, spectral moment \(\zeta(-1)\). Typical-sample complexity is \(\tfrac12\log\det\Sigma\) and has the wrong gap scaling (\(\zeta'(0)\)). This is the central modelling choice; everything else follows from it.
@@ -560,7 +610,7 @@ As \(T\to 0\) the sums vanish exponentially and (B4)–(B5) return Section 6. As
 ## Open questions
 
 - *Gravity.* Is the holographic bound the bulk-complexity cutoff, and does that give a Casimir-type derivation of \(\Lambda_{\mathrm{phys}}\)? (Section 9.)
-- *Analog systems.* Section 12 is the proposal. Remaining experimental questions are practical: box-trap mixed BCs, and how small \(A/a\) is relative to bulk-plus-surface in present 1D gases.
+- *Analog systems.* Section 12 is the proposal; Appendix C is the TG execution. Remaining experimental questions are practical: box-trap mixed BCs, and how small \(A/a\) is relative to bulk-plus-surface in present 1D gases.
 - *Reference machine as UV completion.* Does a concrete Planck-scale computational substrate (causal-set dynamics, quantum-circuit cosmology, Wolfram rewriting) produce a measurable \(c_U\) in a single-mode cavity?
 - *Roughness experiment.* What is the smallest gap and the cheapest fabrication path for a pair of surfaces that match in height power spectrum and differ substantially in \(K(\text{height map})\)?
 
@@ -577,6 +627,7 @@ This repository is a theory-plus-computation project, not a multi-service applic
 5. **PR: DN repulsion** — mixed Dirichlet–Neumann 1D spectrum, lattice \(\gamma\to+\pi/48\), sign-flip panel. Depends on (3).
 6. **PR: Matsubara lemma** — Helmholtz \(F(a,T)=T\sum\log(2\sinh(\beta\omega/2))\), \(T\to 0\) recovers DD/DN Casimir, lattice thermal piece. Depends on (5).
 7. **PR: analog proposal** — Section 12, \(I_K=aE/(\pi\hbar v)\) versus \(a\) and \(c_{\mathrm{CFT}}\), DD/DN sign. Depends on (6).
+8. **PR: Tonks–Girardeau check** — exact \(I_K=+1/12\) (DD) and \(-1/24\) (DN) at fixed density; protocol recovers them at every \(N\). Depends on (7).
 
 ---
 
@@ -645,3 +696,5 @@ This repository is a theory-plus-computation project, not a multi-service applic
 [31] E. B. Kolomeisky, J. P. Straley, and L. S. Langsjoen, *Phys. Rev. A* **78**, 022104 (2008), arXiv:0706.2887. Analog Casimir effect in a one-dimensional Fermi gas / Luttinger liquid; continuum envelope versus Friedel discreteness.
 
 [32] A. Recati, J. N. Fuchs, C. S. Peça, and W. Zwerger, *Phys. Rev. A* **72**, 023616 (2005). Casimir forces between impurities in a Luttinger liquid.
+
+[33] M. Girardeau, *J. Math. Phys.* **1**, 516 (1960). Mapping of hard-core bosons in one dimension to free fermions.

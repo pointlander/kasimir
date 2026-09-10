@@ -7,7 +7,7 @@ from pathlib import Path
 
 import numpy as np
 
-from . import field, lattice, spectral
+from . import field, lattice, spectral, tonks
 
 
 def _save(fig, path: Path) -> None:
@@ -267,6 +267,56 @@ def plot_analog_ik(out: Path) -> None:
     plt.close(fig)
 
 
+def plot_tonks(out: Path) -> None:
+    import matplotlib.pyplot as plt
+
+    rho = 1.0
+    Ns = np.arange(4, 61)
+    i_dd = []
+    i_dn = []
+    for N in Ns:
+        a = N / rho
+        for bc, bucket in (("dd", i_dd), ("dn", i_dn)):
+            e_bulk, e_surf, _A = tonks.expansion(rho, bc=bc)
+            E = tonks.energy(int(N), a, bc=bc)
+            A_emp = (E - e_bulk * a - e_surf) * a
+            bucket.append(tonks.extracted_I_K(A_emp, rho))
+
+    fig, axes = plt.subplots(1, 2, figsize=(9.4, 3.6))
+
+    ax = axes[0]
+    ax.plot(Ns, i_dd, color="#1f4e79", lw=1.8, label="DD, nodes at both walls")
+    ax.plot(Ns, i_dn, color="#c44e52", lw=1.8, label="DN, node / antinode")
+    ax.axhline(tonks.I_K_TG_DD, color="#1f4e79", ls=":", lw=0.9)
+    ax.axhline(tonks.I_K_TG_DN, color="#c44e52", ls=":", lw=0.9)
+    ax.set_xlabel("particle number $N$ at fixed $\\rho$")
+    ax.set_ylabel(r"$I_K = A/(\pi\hbar v_F)$")
+    ax.set_title("TG protocol: $I_K$ exact at every $N$")
+    ax.legend(frameon=False, fontsize=8)
+    ax.spines["top"].set_visible(False)
+    ax.spines["right"].set_visible(False)
+
+    ax = axes[1]
+    labels = ["DD", "DN"]
+    tg = [tonks.I_K_TG_DD, tonks.I_K_TG_DN]
+    cft = [-1.0 / 24.0, 1.0 / 48.0]
+    x = np.arange(2)
+    w = 0.35
+    ax.bar(x - w / 2, tg, w, color="#1f4e79", label="TG (quadratic)")
+    ax.bar(x + w / 2, cft, w, color="#c44e52", label="CFT (linear)")
+    ax.axhline(0.0, color="#bbbbbb", lw=0.8)
+    ax.set_xticks(x, labels)
+    ax.set_ylabel(r"$I_K$")
+    ax.set_title("Same protocol, different Hamiltonian")
+    ax.legend(frameon=False, fontsize=8)
+    ax.spines["top"].set_visible(False)
+    ax.spines["right"].set_visible(False)
+
+    fig.tight_layout()
+    _save(fig, out)
+    plt.close(fig)
+
+
 def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(description="Write Kasimir theory figures.")
     parser.add_argument(
@@ -281,6 +331,7 @@ def main(argv: list[str] | None = None) -> None:
     plot_quiet_cavity(args.out / "quiet-cavity.png")
     plot_matsubara(args.out / "matsubara.png")
     plot_analog_ik(args.out / "analog-ik.png")
+    plot_tonks(args.out / "tonks-ik.png")
     print(f"wrote figures in {args.out.resolve()}")
 
 

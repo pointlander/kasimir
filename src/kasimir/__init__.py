@@ -1,5 +1,6 @@
 """Kasimir: Casimir physics from a low Kolmogorov-complexity ensemble."""
 
+from . import tonks
 from .spectral import (
     THETA_MODULAR,
     I_1D_NATS,
@@ -46,4 +47,5 @@ __all__ = [
     "oscillator_helmholtz",
     "extracted_I_K",
     "cft_energy_1d",
+    "tonks",
 ]
