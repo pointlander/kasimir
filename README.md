@@ -45,6 +45,7 @@ python paper/build_pdf.py          # writes paper/k-casimir.pdf
 - `figures/reconstruction.png` — \(E=\Theta I_K\) and \(F=-d(\Theta I_K)/da\) recover \(\pi^{2}/720\) and \(\pi^{2}/240\).
 - `figures/quiet-cavity.png` — typical Gaussian-free-field snapshots with Dirichlet walls. The cavity is quieter; that is \(\langle\varphi^{2}\rangle\), not the energy the plates feel.
 - `figures/matsubara.png` — \(F(a,T)\to-\pi/(24a)\) as \(T\to 0\); lattice thermal piece matches continuum modes below the cutoff.
+- `figures/analog-ik.png` — extracted \(I_K=aE/(\pi\hbar v)\) is independent of \(a\) and linear in \(c_{\mathrm{CFT}}\); DD and DN have opposite sign.
 
 ## What this is not
 

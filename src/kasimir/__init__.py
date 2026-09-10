@@ -20,6 +20,8 @@ from .spectral import (
     free_energy_1d_dirichlet_neumann,
     free_energy_1d,
     oscillator_helmholtz,
+    extracted_I_K,
+    cft_energy_1d,
 )
 
 __all__ = [
@@ -42,4 +44,6 @@ __all__ = [
     "free_energy_1d_dirichlet_neumann",
     "free_energy_1d",
     "oscillator_helmholtz",
+    "extracted_I_K",
+    "cft_energy_1d",
 ]

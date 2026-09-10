@@ -383,11 +383,57 @@ At the Gaussian, local, typical-set level the theory is a derivation of QED Casi
 
 **11.4 Snapshot versus history diagnostics.** Local \(\langle\varphi^{2}\rangle_{\mathrm{ren}}\) and the regularised vacuum energy density \(\langle T_{00}\rangle_{\mathrm{ren}}\) are different spectral moments and have different spatial profiles between the plates [5]. An experiment that mapped both (for a scalar analog, e.g. a trapped Bose field or a superconducting-circuit analog) would see the snapshot-complexity density and the history-complexity density come apart. QED already predicts the split; the AIT reading says which one is the potential for the plates (history / energy) and which one is the visual “quietness” of the cavity (snapshot / \(\langle\varphi^{2}\rangle\)).
 
-None of these is a near-term discovery channel. The scientific content of the theory, at present, is the derivation and the ontology, not a smoking-gun plot.
+Those four items are not near-term discovery channels. The measurement that *is* near-term, and that belongs to this theory rather than to QED, is Section 12.
 
 ---
 
-## 12. Discussion
+## 12. Analog measurement of the \(1/24\)-nat invariant
+
+Laboratory Casimir plates measure \(\kappa(a)\) already converted to Joules by \(\hbar c/a\). They cannot separate \(I_K\) from \(\Theta\). A \(1{+}1\) conformal fluid between movable barriers can. The conversion scale is then the independently measured sound speed, and \(I_K\) is what remains.
+
+For a \(c_{\mathrm{CFT}}\) conformal field theory on an interval of length \(a\) with conformal boundary conditions \(\alpha,\beta\) and speed \(v\) [19],
+
+\[
+E_{\alpha\beta}(a)
+=\frac{\pi\hbar v}{a}\Bigl(h_{\alpha\beta}-\frac{c_{\mathrm{CFT}}}{24}\Bigr)
+=\Theta_{1\mathrm{D}}(a)\,I_K\,,
+\qquad
+\Theta_{1\mathrm{D}}=\frac{\pi\hbar v}{a}\,.
+\tag{25}
+\]
+
+Here \(h_{\alpha\beta}\) is the lowest weight in the \(\alpha\to\beta\) spectrum (the boundary-condition-changing operator). Identical boundaries that admit the identity give \(h_{\alpha\beta}=0\) and \(I_K=-c_{\mathrm{CFT}}/24\). Mixed Dirichlet–Neumann for a free boson is \(c_{\mathrm{CFT}}=1\), \(h=1/16\), hence \(I_K=+1/48\), which is (16). The combination
+
+\[
+I_K\;=\;\frac{a\,E_{\alpha\beta}}{\pi\hbar v}
+\tag{26}
+\]
+
+is independent of \(a\) and of \(v\). That is the analog of Section 6: the walls change the value of a fixed deficit, they do not remove bits as they close.
+
+**Protocol.**
+
+1. Prepare a single-mode Luttinger liquid of tunable length \(a\) and independently measured velocity \(v\): a Tonks–Girardeau gas in a box trap [30,31], or a quantum wire / cold-atom tube [32]. In the TG limit the microscopic Hamiltonian is free fermions, \(c_{\mathrm{CFT}}=1\), \(v=\pi\hbar\rho/m\).
+2. Measure the ground-state energy (or the low-\(T\) free energy, with \(k_BT\ll\hbar v/a\) so that (B4) is frozen) as a function of \(a\) at fixed density. Fit
+   \[
+   E(a)=e_{\mathrm{bulk}}a+e_{\mathrm{surf}}+\frac{A}{a}+O(a^{-3}).
+   \]
+   The bulk and surface terms are Kolmogorov-local in the sense of Section 8; \(A\) is \(\kappa a\).
+3. Form \(I_K=A/(\pi\hbar v)\). Vary \(a\). The result must be a flat line at \(-c_{\mathrm{CFT}}/24\) (same BCs).
+4. Vary \(c_{\mathrm{CFT}}\) at fixed \(a\): \(N_{\mathrm{ch}}\) parallel tubes, or \(N_{\mathrm{ch}}\) channels of a wire. Then \(I_K=-N_{\mathrm{ch}}/24\) (same BCs) or \(+N_{\mathrm{ch}}/48\) (mixed BCs, free-boson DN). A plot of \(I_K\) against \(N_{\mathrm{ch}}\) is a straight line through the origin.
+5. Flip one boundary from a node to an antinode of the phase field (hard wall \(\leftrightarrow\) vanishing derivative; in a wire, normal \(\leftrightarrow\) Andreev [32]). The sign of \(I_K\) must flip. That is the analog of Section 6 mixed boundaries, and it is the discriminator against a force that merely “prefers smaller boxes.”
+
+Particle discreteness adds Friedel oscillations whose envelope is the continuum \(I_K\) [31]. Those oscillations are the analog of a UV-complete lattice; they are not a failure of Postulate K.
+
+The theory side of the two plots is the 1D Helmholtz code already in the repository: \(I_K=aE/(\pi\hbar v)\) on the Dirichlet and Dirichlet–Neumann chains, and \(c_{\mathrm{CFT}}\) copies of those energies.
+
+![Extracted \(I_K\) versus gap and versus central charge, DD and DN](../figures/analog-ik.png)
+
+This is not a QED test. It is a test that the dimensionless invariant isolated in Sections 6 and B.2 is an information, not an energy, and that mixed boundaries reverse it.
+
+---
+
+## 13. Discussion
 
 Casimir physics is usually presented as evidence that empty space is a seething bath of zero-point modes, each carrying \(\tfrac12\hbar\omega\). That picture is optional. The same arithmetic follows from a universe that scores complete records by the length of their shortest generating program, restricted to the typical set of local Gaussian fields, conditioned on conductor constraints.
 
@@ -514,7 +560,7 @@ As \(T\to 0\) the sums vanish exponentially and (B4)–(B5) return Section 6. As
 ## Open questions
 
 - *Gravity.* Is the holographic bound the bulk-complexity cutoff, and does that give a Casimir-type derivation of \(\Lambda_{\mathrm{phys}}\)? (Section 9.)
-- *Interacting analog systems.* Can a \(1{+}1\) CFT engine (e.g. a quantum wire or a trapped Tonks gas between movable barriers) measure the \(1/24\)-nat invariant independently of the conversion scale, by varying \(a\) and \(c_{\mathrm{CFT}}\) separately, and see the DN sign flip?
+- *Analog systems.* Section 12 is the proposal. Remaining experimental questions are practical: box-trap mixed BCs, and how small \(A/a\) is relative to bulk-plus-surface in present 1D gases.
 - *Reference machine as UV completion.* Does a concrete Planck-scale computational substrate (causal-set dynamics, quantum-circuit cosmology, Wolfram rewriting) produce a measurable \(c_U\) in a single-mode cavity?
 - *Roughness experiment.* What is the smallest gap and the cheapest fabrication path for a pair of surfaces that match in height power spectrum and differ substantially in \(K(\text{height map})\)?
 
@@ -530,6 +576,7 @@ This repository is a theory-plus-computation project, not a multi-service applic
 4. **PR: figures and README** — `scripts/plot_theory.py`, `figures/`, `README.md`. Depends on (2) and (3).
 5. **PR: DN repulsion** — mixed Dirichlet–Neumann 1D spectrum, lattice \(\gamma\to+\pi/48\), sign-flip panel. Depends on (3).
 6. **PR: Matsubara lemma** — Helmholtz \(F(a,T)=T\sum\log(2\sinh(\beta\omega/2))\), \(T\to 0\) recovers DD/DN Casimir, lattice thermal piece. Depends on (5).
+7. **PR: analog proposal** — Section 12, \(I_K=aE/(\pi\hbar v)\) versus \(a\) and \(c_{\mathrm{CFT}}\), DD/DN sign. Depends on (6).
 
 ---
 
@@ -592,3 +639,9 @@ This repository is a theory-plus-computation project, not a multi-service applic
 [28] P. Grünwald, *The Minimum Description Length Principle*, MIT Press (2007).
 
 [29] S. W. Hawking, *Commun. Math. Phys.* **55**, 133 (1977). Zeta-regularised functional determinants; the temporal product \(\prod_n\bigl[(2\pi n/\beta)^2+\omega^2\bigr]=\bigl[2\sinh(\beta\omega/2)\bigr]^2\) up to \(\beta\)-only factors.
+
+[30] T. Kinoshita, T. Wenger, and D. S. Weiss, *Science* **305**, 1125 (2004). Observation of a Tonks–Girardeau gas.
+
+[31] E. B. Kolomeisky, J. P. Straley, and L. S. Langsjoen, *Phys. Rev. A* **78**, 022104 (2008), arXiv:0706.2887. Analog Casimir effect in a one-dimensional Fermi gas / Luttinger liquid; continuum envelope versus Friedel discreteness.
+
+[32] A. Recati, J. N. Fuchs, C. S. Peça, and W. Zwerger, *Phys. Rev. A* **72**, 023616 (2005). Casimir forces between impurities in a Luttinger liquid.

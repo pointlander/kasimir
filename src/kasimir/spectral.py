@@ -224,3 +224,27 @@ def free_energy_1d(
     if bc == "dn":
         return free_energy_1d_dirichlet_neumann(a, T, hbar=hbar, c=c)
     raise ValueError(f"unknown boundary conditions {bc!r}")
+
+
+def extracted_I_K(
+    energy: float, a: float, hbar: float = 1.0, c: float = 1.0
+) -> float:
+    """I_K = E / Θ_1D = a E / (π ħ c). Independent of a for a pure 1/a Casimir."""
+    return energy / theta_1d_mode_spacing(a, hbar=hbar, c=c)
+
+
+def cft_energy_1d(
+    a: float,
+    c_cft: float,
+    bc: BC1D = "dd",
+    hbar: float = 1.0,
+    v: float = 1.0,
+) -> float:
+    """c copies of a 1D conformal scalar: E = c_cft × E_{c=1}(a; ħ, v)."""
+    if c_cft < 0:
+        raise ValueError("central charge must be nonnegative")
+    if bc == "dd":
+        return c_cft * energy_1d_dirichlet(a, hbar=hbar, c=v)
+    if bc == "dn":
+        return c_cft * energy_1d_dirichlet_neumann(a, hbar=hbar, c=v)
+    raise ValueError(f"unknown boundary conditions {bc!r}")

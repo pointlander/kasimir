@@ -73,6 +73,23 @@ def test_gamma_coefficient():
     assert theta * i == pytest.approx(spectral.energy_3d_em(a, area=area), rel=1e-12)
 
 
+def test_extracted_I_K_is_independent_of_a():
+    for a in (0.3, 1.1, 8.0):
+        e_dd = spectral.energy_1d_dirichlet(a)
+        e_dn = spectral.energy_1d_dirichlet_neumann(a)
+        assert spectral.extracted_I_K(e_dd, a) == pytest.approx(-1.0 / 24.0)
+        assert spectral.extracted_I_K(e_dn, a) == pytest.approx(1.0 / 48.0)
+
+
+def test_cft_energy_linear_in_central_charge():
+    a = 1.7
+    for c_cft in (1.0, 2.0, 4.5):
+        e = spectral.cft_energy_1d(a, c_cft, bc="dd")
+        assert spectral.extracted_I_K(e, a) == pytest.approx(-c_cft / 24.0)
+        e_dn = spectral.cft_energy_1d(a, c_cft, bc="dn")
+        assert spectral.extracted_I_K(e_dn, a) == pytest.approx(c_cft / 48.0)
+
+
 def test_rejects_nonpositive():
     with pytest.raises(ValueError):
         spectral.energy_1d_dirichlet(0.0)
@@ -84,3 +101,5 @@ def test_rejects_nonpositive():
         spectral.energy_1d_dirichlet_neumann(0.0)
     with pytest.raises(ValueError):
         spectral.information_1d(bc="nn")  # type: ignore[arg-type]
+    with pytest.raises(ValueError):
+        spectral.cft_energy_1d(1.0, -1.0)

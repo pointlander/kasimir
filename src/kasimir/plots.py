@@ -221,6 +221,52 @@ def plot_matsubara(out: Path) -> None:
     plt.close(fig)
 
 
+def plot_analog_ik(out: Path) -> None:
+    import matplotlib.pyplot as plt
+
+    a = np.linspace(0.4, 6.0, 80)
+    i_dd = np.array(
+        [spectral.extracted_I_K(spectral.energy_1d_dirichlet(ai), ai) for ai in a]
+    )
+    i_dn = np.array(
+        [
+            spectral.extracted_I_K(spectral.energy_1d_dirichlet_neumann(ai), ai)
+            for ai in a
+        ]
+    )
+    charges = np.linspace(0.0, 6.0, 50)
+    i_dd_c = -charges / 24.0
+    i_dn_c = charges / 48.0
+
+    fig, axes = plt.subplots(1, 2, figsize=(9.4, 3.6))
+
+    ax = axes[0]
+    ax.plot(a, i_dd, color="#1f4e79", lw=1.8, label=r"DD, $h_{\alpha\beta}=0$")
+    ax.plot(a, i_dn, color="#c44e52", lw=1.8, label=r"DN, $h_{\alpha\beta}=1/16$")
+    ax.axhline(-1.0 / 24.0, color="#1f4e79", ls=":", lw=0.8)
+    ax.axhline(1.0 / 48.0, color="#c44e52", ls=":", lw=0.8)
+    ax.set_xlabel("interval length $a$")
+    ax.set_ylabel(r"$I_K = a E/(\pi\hbar v)$")
+    ax.set_title(r"$I_K$ is independent of $a$")
+    ax.legend(frameon=False, fontsize=8)
+    ax.spines["top"].set_visible(False)
+    ax.spines["right"].set_visible(False)
+
+    ax = axes[1]
+    ax.plot(charges, i_dd_c, color="#1f4e79", lw=1.8, label=r"DD: $-c/24$")
+    ax.plot(charges, i_dn_c, color="#c44e52", lw=1.8, label=r"DN: $+c/48$")
+    ax.set_xlabel(r"central charge $c_{\mathrm{CFT}}$")
+    ax.set_ylabel(r"$I_K$")
+    ax.set_title(r"$I_K$ is linear in $c_{\mathrm{CFT}}$")
+    ax.legend(frameon=False, fontsize=8)
+    ax.spines["top"].set_visible(False)
+    ax.spines["right"].set_visible(False)
+
+    fig.tight_layout()
+    _save(fig, out)
+    plt.close(fig)
+
+
 def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(description="Write Kasimir theory figures.")
     parser.add_argument(
@@ -234,6 +280,7 @@ def main(argv: list[str] | None = None) -> None:
     plot_reconstruction(args.out / "reconstruction.png")
     plot_quiet_cavity(args.out / "quiet-cavity.png")
     plot_matsubara(args.out / "matsubara.png")
+    plot_analog_ik(args.out / "analog-ik.png")
     print(f"wrote figures in {args.out.resolve()}")
 
 
