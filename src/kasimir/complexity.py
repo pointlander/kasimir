@@ -4,8 +4,10 @@ True K is uncomputable. What we can compute:
 
 - Gaussian typical-sample complexity (3):  (1/2) log2 det(2π e Σ / δ²)
   This is snapshot complexity, spectral moment ζ'(0).
-- History-complexity rate (4):  (1/2) Σ ω_k
-  This is κ, spectral moment ζ(-1), the Casimir energy.
+- History-complexity rate at T=0:  (1/2) Σ ω_k
+  This is the vacuum energy, spectral moment ζ(-1).
+- Constrained-ensemble rate (Matsubara):  T Σ log(2 sinh(ω/2T)) = F(a,T)
+  This is −T log μ(C_a), not the typical-sample entropy.
 - Dimensionless I_K = κ / Θ, the split of §6–§7.
 """
 
@@ -20,6 +22,7 @@ from .spectral import (
     information_1d,
     information_3d,
     modular_temperature,
+    oscillator_helmholtz,
     theta_1d_mode_spacing,
 )
 
@@ -42,8 +45,15 @@ def gaussian_typical_bits(cov: np.ndarray, delta: float = 1.0) -> float:
 
 
 def history_rate_from_frequencies(omega: np.ndarray, hbar: float = 1.0) -> float:
-    """κ = (ħ/2) Σ ω. History-complexity production rate."""
+    """T=0 vacuum energy (ħ/2) Σ ω. Limit of oscillator_helmholtz as T→0."""
     return 0.5 * hbar * float(np.asarray(omega, dtype=float).sum())
+
+
+def helmholtz_from_frequencies(
+    omega: np.ndarray, T: float, hbar: float = 1.0
+) -> float:
+    """Constrained-ensemble complexity rate F = T Σ log(2 sinh(ħω/2T))."""
+    return oscillator_helmholtz(omega, T, hbar=hbar)
 
 
 def dimensionless_from_energy(energy: float, theta: float) -> float:

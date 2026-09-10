@@ -1,6 +1,6 @@
 # The Casimir Effect as a Kolmogorov-Complexity Gradient
 
-**Kasimir theory.** A universe whose configurations are weighted by \(2^{-K(\,\cdot\,)}\) — a Gibbs ensemble with Hamiltonian equal to prefix Kolmogorov complexity — reproduces the Casimir force as the variation of vacuum *complexity production* with respect to a boundary constraint. For histories, not snapshots, the typical-set value of that complexity rate *is* the Euclidean effective action. Conducting plates condition the universal prior; the resulting algorithmic free energy is the Casimir energy. The \(1/a^{4}\) law is dimensional analysis on an information deficit supported on the gap: a dimensionless complexity \(\sim A/a^{2}\) times an energy-per-nat \(\sim \hbar c/a\). Exact prefactors are spectral zeta values, read here as regularized complexity moments. The theory is a derivation of the QFT result from a single postulate, plus a short list of corrections that QED does not contain.
+**Kasimir theory.** A universe whose configurations are weighted by \(2^{-K(\,\cdot\,)}\) — a Gibbs ensemble with Hamiltonian equal to prefix Kolmogorov complexity — reproduces the Casimir force as the variation of vacuum *complexity production* with respect to a boundary constraint. For histories, not snapshots, \(-\log\mu(C_a)\) per unit Euclidean time *is* the Helmholtz free energy (the Euclidean effective action). The Matsubara lemma converts that determinant into \(F(a,T)\). Conducting plates condition the universal prior; the resulting algorithmic free energy is the Casimir energy. The \(1/a^{4}\) law is dimensional analysis on an information deficit supported on the gap: a dimensionless complexity \(\sim A/a^{2}\) times an energy-per-nat \(\sim \hbar c/a\). Exact prefactors are spectral zeta values, read here as regularized complexity moments. The theory is a derivation of the QFT result from a single postulate, plus a short list of corrections that QED does not contain.
 
 ---
 
@@ -89,23 +89,25 @@ K(\varphi_\delta)\;=\;\tfrac12\log_2\det\!\bigl(2\pi e\,\Sigma/\delta^{2}\bigr)+
 
 For a collection of oscillators, \(\Sigma_{kk}\propto 1/\omega_k\), so (3) tracks \(\sum\log\omega_k\), the spectral zeta function at \(s=0\), not \(\sum\omega_k\). In one dimension that is logarithmic in \(a\). It is a real physical density (it is essentially \(\langle\varphi^{2}\rangle\) and the functional determinant) and it *is* suppressed between Dirichlet plates — the cavity is quieter — but it is not the energy that the plates feel.
 
-Histories fix the moment. A Euclidean record of duration \(\beta\) is a list of snapshots. For a free field the quadratic action is local in time after Wick rotation, and the Gaussian integral over Matsubara modes converts \(\sum\log(\nu_n^{2}+\omega^{2})\) into \(\sum\omega\) (plus thermal polylogarithms at finite \(\beta\)). Equivalently, Brudno’s theorem [16] identifies the Kolmogorov-complexity *rate* of a typical trajectory of an ergodic system with the Kolmogorov–Sinai entropy rate; the Euclidean QFT analog of that rate is the free-energy density. At zero temperature the free energy is the vacuum energy.
+Histories fix the moment, but the plates do not couple to the typical-sample complexity of a Euclidean record. That quantity is \(\tfrac12\log\det\Sigma\), the entropy of the Gaussian process, and is the \(\zeta'(0)\) trap of the snapshot row in another guise (Appendix B.1). What the plates couple to is the Solomonoff *measure of the constraint*, \(\mu(C_a)\). By Section 4 this is the Euclidean partition function \(Z\), and \(-\log Z\) is the effective action. The Matsubara lemma (Appendix B.2) converts that determinant into the Helmholtz free energy of the constrained oscillators.
 
-**Definition.** The *complexity production rate* of a constrained vacuum is
+**Definition.** The *complexity production rate* of a constrained vacuum is the regularised code-length rate of the constraint itself,
 
 \[
-\kappa(a)\;:=\;\lim_{\beta\to\infty}\frac{\ln 2}{\beta}\,\mathbb{E}_{\mu}\bigl[K\bigl(\varphi\big|_{[0,\beta]}\bigm|\,C_a\bigr)\bigr]_{\mathrm{ren}}\,,
+\kappa(a,T)\;:=\;-T\log\mu(C_a)\big|_{\mathrm{ren}}\;=\;F(a,T)\,,
 \tag{4}
 \]
 
-where \(C_a\) is the constraint set (conductor boundary conditions at separation \(a\)), the expectation is the typical-set value, and “ren” means the heat-kernel / zeta subtraction of Section 8. The claim of the paper is \(\kappa(a)=E_{\mathrm{Casimir}}(a)\) and therefore
+with \(T=1/\beta\) and \(F\) the Helmholtz free energy. Heat-kernel / zeta subtraction is Section 8. At zero temperature \(F\to E_{\mathrm{vac}}\) and
 
 \[
-F(a)\;=\;-\frac{\partial\kappa}{\partial a}\,.
+\kappa(a)\;:=\;\lim_{T\to 0}\kappa(a,T)\;=\;E_{\mathrm{Casimir}}(a)\,,
+\qquad
+F_{\mathrm{force}}(a)\;=\;-\frac{\partial\kappa}{\partial a}\,.
 \tag{5}
 \]
 
-In slogan form: *the Casimir force is the derivative of vacuum Kolmogorov-complexity production with respect to the constraint modulus.*
+In slogan form: *the Casimir force is the derivative of vacuum Kolmogorov-complexity production with respect to the constraint modulus.* Production means \(-\log\mu(C_a)\) per unit Euclidean time, not the entropy of a typical sample.
 
 ---
 
@@ -359,7 +361,7 @@ The second reading is speculative. It is consistent with Postulate K and with th
 
 ## 10. Finite temperature, real materials, repulsion, dynamics
 
-**Temperature.** A thermal photon gas has von Neumann entropy \(S(a,T)\) and free energy \(F(a,T)=E-TS\). Typical thermal histories have \(K\simeq S/\ln 2\) by Brudno / Shannon–McMillan. The measure of the constrained set is still \(Z=e^{-\beta F}\), so the plates see \(F(a,T)\), which is the Lifshitz thermal Casimir free energy [2,17]. High-\(T\) (classical) Casimir is entropy-dominated; in AIT language the plates move to increase the number of short thermal programs, i.e. to increase entropy of the photon gas under the constraint. That is ordinary thermodynamics, recovered as the high-temperature limit of Postulate K.
+**Temperature.** Lemma B.2 gives \(\kappa(a,T)=F(a,T)\) at any \(T\), not only at \(T=0\). A thermal photon gas has von Neumann entropy \(S(a,T)\) and Helmholtz free energy \(F=E-TS\). Typical thermal *samples* have \(K\simeq S/\ln 2\) by Brudno / Shannon–McMillan [16]; that is the entropy, and it is not the potential. The plates see \(-\log\mu(C_a)= \beta F\), which is the Lifshitz thermal Casimir free energy [2,17]. High-\(T\) (classical) Casimir is entropy-dominated in the thermodynamic identity \(F=E-TS\); in AIT language the constrained measure \(Z=e^{-\beta F}\) still governs the modulus. That is ordinary thermodynamics, recovered as the high-temperature limit of Postulate K. In one dimension the closed form is (B4)–(B5); as \(T\to 0\) it returns \(-\pi\hbar c/(24a)\) (DD) and \(+\pi\hbar c/(48a)\) (DN), and the high-\(T\) DD dual is the Stefan–Boltzmann law \(F\sim -\pi a T^{2}/6\).
 
 **Real materials.** Perfect-conductor boundary conditions are the MDL model “field vanishes here.” A real metal is a short program specifying a linear response \(\varepsilon(i\xi)\). The constrained covariance is the fluctuating-dissipation covariance of Lifshitz theory, and \(\kappa(a)\) becomes the Lifshitz free energy. There is no new force at this level.
 
@@ -430,7 +432,9 @@ continuum length \(a=n+\tfrac12\), and \(\omega_j\to(j+\tfrac12)\pi/a\). The sam
 
 ---
 
-## Appendix B. Gaussian coding lemma
+## Appendix B. Gaussian coding and the Matsubara lemma
+
+### B.1 Typical-sample complexity is entropy
 
 Let \(\varphi\) be sampled from a centred non-degenerate Gaussian on \(\mathbb{R}^N\) with covariance \(\Sigma\), and let \(\varphi_\delta\) be \(\varphi\) written in a \(\delta\)-grid (any reasonable quantiser). Then there is a constant \(c\) independent of \(\Sigma\) such that, with probability \(1-o(1)\) as \(N\to\infty\) in a regime where the eigenvalues of \(\Sigma\) stay in a fixed compact subset of \((0,\infty)\),
 
@@ -442,14 +446,64 @@ Let \(\varphi\) be sampled from a centred non-degenerate Gaussian on \(\mathbb{R
 
 This is the standard typical-set statement for Gaussians (Shannon entropy plus the coding theorem; see [15, §8.1] and [28]). The model complexity \(K(\Sigma)\) is \(O(1)\) when \(\Sigma\) is the inverse of a short-program local operator, as in Section 4.
 
-For a Euclidean history the covariance is \(\hbar(-\Delta)^{-1}\) on the full spacetime lattice of \(N_\tau\times N_{\mathrm{space}}\) sites. The \(\tfrac12\log\det\Sigma\) term is \(-\tfrac12\log\det(-\Delta)\) plus constants, which is \(\beta E_{\mathrm{vac}}\) plus the Matsubara conversion, and (4) follows.
+For a Euclidean history the covariance is \(\Sigma=\hbar(-\Delta_E)^{-1}\). Then \(\tfrac12\log\det\Sigma=-\tfrac12\log\det(-\Delta_E)+O(N)\), which is *minus* \(\beta F\) plus local terms. Typical-sample \(K\) therefore tracks the entropy of the Gaussian process, the spectral moment \(\zeta'(0)\), not the Casimir energy. That is the same wrong moment as a spatial snapshot.
+
+### B.2 Matsubara lemma
+
+The plates couple to the measure of the constraint, not to a typical sample. Section 4 identifies \(\mu(C_a)\) with the Euclidean partition function \(Z=\bigl(\det(-\Delta_E)\bigr)^{-1/2}\), so \(-\log\mu(C_a)=\tfrac12\log\det(-\Delta_E)\) up to local counterterms.
+
+**Lemma B.2 (Matsubara).** Let \(C_a\) be a static spatial constraint and let Euclidean time be the circle \(S^1_\beta\) of length \(\beta=1/T\). For a free scalar with spatial frequencies \(\{\omega_k(a)\}\),
+
+\[
+\frac12\log\det(-\Delta_{C_a,\beta})
+=\sum_k\log\bigl(2\sinh(\beta\omega_k/2)\bigr)+C(\beta)\,,
+\tag{B2}
+\]
+
+where \(C(\beta)\) depends on \(\beta\) and on ultraviolet cutoffs but not on the spatial spectrum. Consequently
+
+\[
+-T\log\mu(C_a)
+=T\sum_k\log\bigl(2\sinh(\beta\omega_k/2)\bigr)+T\,C(\beta)
+=F(a,T)+\text{local}\,,
+\tag{B3}
+\]
+
+with \(F(a,T)\) the Helmholtz free energy of the constrained oscillators. Heat-kernel subtraction of Section 8 drops the local piece and (4) follows: \(\kappa(a,T)=F(a,T)\). In particular \(\log\bigl(2\sinh(\beta\omega/2)\bigr)\sim\beta\omega/2\) as \(T\to 0\), so \(\kappa(a)=E_{\mathrm{vac}}(a)\).
+
+*Proof sketch.* The operator \(-\partial_\tau^2+\omega_k^2\) on \(S^1_\beta\) has eigenvalues \((2\pi n/\beta)^2+\omega_k^2\), \(n\in\mathbb{Z}\). The \(\zeta\)-regularised infinite product is \(\prod_n\bigl[(2\pi n/\beta)^2+\omega^2\bigr]=\bigl[2\sinh(\beta\omega/2)\bigr]^2\) up to a factor depending on \(\beta\) only [29]. Taking \(\tfrac12\log\) and summing over \(k\) gives (B2). The equivalent thermal form
+
+\[
+T\log\bigl(2\sinh(\beta\omega/2)\bigr)
+=\frac{\omega}{2}+T\log\bigl(1-e^{-\beta\omega}\bigr)
+\]
+
+splits vacuum energy from thermal occupation. \(\square\)
+
+In one dimension the spatial sums close. For Dirichlet–Dirichlet, \(\omega_n=n\pi c/a\), \(\zeta(-1)=-1/12\) supplies the vacuum piece of Section 6, and the thermal sum is elementary:
+
+\[
+F_{\mathrm{DD}}(a,T)=-\frac{\pi\hbar c}{24a}+T\sum_{n=1}^{\infty}\log\bigl(1-e^{-n\pi\hbar c/(aT)}\bigr).
+\tag{B4}
+\]
+
+Dirichlet–Neumann is the same construction with Hurwitz \(\zeta(-1,\tfrac12)=+1/24\):
+
+\[
+F_{\mathrm{DN}}(a,T)=+\frac{\pi\hbar c}{48a}+T\sum_{n=0}^{\infty}\log\bigl(1-e^{-(n+1/2)\pi\hbar c/(aT)}\bigr).
+\tag{B5}
+\]
+
+As \(T\to 0\) the sums vanish exponentially and (B4)–(B5) return Section 6. As \(aT\to\infty\), the Dedekind modular identity converts (B4) into the \(1{+}1\) Stefan–Boltzmann law \(F_{\mathrm{DD}}\sim -\pi a T^{2}/6+(T/2)\log(2aT)\). A harmonic chain with the same boundary conditions reproduces the thermal piece of (B4)–(B5) once \(T\) is below the lattice cutoff (`src/kasimir/lattice.py`, `helmholtz`).
+
+![DD Helmholtz free energy versus gap, and lattice versus continuum thermal piece](../figures/matsubara.png)
 
 ---
 
 ## Key decisions
 
-1. **Histories, not snapshots, not states.** The complexity that equals Casimir energy is the production *rate* of typical Euclidean records, spectral moment \(\zeta(-1)\). Snapshot complexity is \(\zeta'(0)\) and has the wrong gap scaling. This is the central modelling choice; everything else follows from it.
-2. **Action is the large-scale proxy for \(K\).** Once typical sets are local and Gaussian, Postulate K *is* the Euclidean path integral, with \(\hbar\) converting nats to action. No extra algorithmic temperature is fitted to Casimir data.
+1. **Histories, not snapshots, not states.** The complexity that equals Casimir energy is \(-\log\mu(C_a)\) per unit Euclidean time, i.e. the Helmholtz free energy, spectral moment \(\zeta(-1)\). Typical-sample complexity is \(\tfrac12\log\det\Sigma\) and has the wrong gap scaling (\(\zeta'(0)\)). This is the central modelling choice; everything else follows from it.
+2. **Action is the large-scale proxy for \(K\).** Once typical sets are local and Gaussian, Postulate K *is* the Euclidean path integral, with \(\hbar\) converting nats to action. The Matsubara lemma converts \(\det(-\Delta_E)\) into \(F(a,T)\); \(T=0\) is a limit, not a separate postulate. No extra algorithmic temperature is fitted to Casimir data.
 3. **Boundaries condition; they do not modify the prior.** The force is a thermodynamic force in the marginal on the modulus \(a\). Repulsion is allowed and is realised by Dirichlet–Neumann walls: the same \(1/24\) spectral invariant, opposite Hurwitz sign, \(I_K=+1/48\).
 4. **Zeta / heat-kernel subtraction is Kolmogorov-locality.** Bulk and surface divergences are short local programs (part of the laws). Rigid motion isolates the nonlocal remainder \(\kappa(a)\).
 5. **Conversion scale is modular.** \(\Theta=\hbar c/(2\pi a)\) is a convention that sets the split \(E=\Theta I_K\); the invariant is \(\kappa(a)=E_{\mathrm{Casimir}}(a)\). The coefficient \(\pi^{3}/360\) belongs to that split.
@@ -475,6 +529,7 @@ This repository is a theory-plus-computation project, not a multi-service applic
 3. **PR: 1D lattice** — `src/kasimir/lattice.py`, continuum extrapolation of \(\gamma\), snapshot-versus-history comparison, tests. Depends on (2).
 4. **PR: figures and README** — `scripts/plot_theory.py`, `figures/`, `README.md`. Depends on (2) and (3).
 5. **PR: DN repulsion** — mixed Dirichlet–Neumann 1D spectrum, lattice \(\gamma\to+\pi/48\), sign-flip panel. Depends on (3).
+6. **PR: Matsubara lemma** — Helmholtz \(F(a,T)=T\sum\log(2\sinh(\beta\omega/2))\), \(T\to 0\) recovers DD/DN Casimir, lattice thermal piece. Depends on (5).
 
 ---
 
@@ -535,3 +590,5 @@ This repository is a theory-plus-computation project, not a multi-service applic
 [27] P. A. Maia Neto, A. Lambrecht, and S. Reynaud, *Phys. Rev. A* **72**, 012115 (2005).
 
 [28] P. Grünwald, *The Minimum Description Length Principle*, MIT Press (2007).
+
+[29] S. W. Hawking, *Commun. Math. Phys.* **55**, 133 (1977). Zeta-regularised functional determinants; the temporal product \(\prod_n\bigl[(2\pi n/\beta)^2+\omega^2\bigr]=\bigl[2\sinh(\beta\omega/2)\bigr]^2\) up to \(\beta\)-only factors.

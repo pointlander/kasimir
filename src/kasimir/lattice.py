@@ -24,6 +24,8 @@ from typing import Literal
 
 import numpy as np
 
+from .spectral import log_two_sinh, oscillator_helmholtz
+
 PI = math.pi
 BC = Literal["dd", "dn"]
 
@@ -80,8 +82,18 @@ def dirichlet_frequencies(n: int) -> np.ndarray:
 
 
 def vacuum_energy(n: int, bc: BC = "dd") -> float:
-    """κ(n) = (ħ/2) Σ ω_j with ħ = 1."""
+    """κ(n) = (ħ/2) Σ ω_j with ħ = 1. T=0 Helmholtz."""
     return 0.5 * float(frequencies(n, bc=bc).sum())
+
+
+def helmholtz(n: int, T: float, bc: BC = "dd") -> float:
+    """Lattice Helmholtz free energy T Σ log(2 sinh(ω_j / 2T)).
+
+    Equals vacuum_energy at T=0. This is (1/β) × ½ log det(−Δ_E) for a
+    static chain, i.e. the Matsubara-converted complexity rate of the
+    constrained ensemble.
+    """
+    return oscillator_helmholtz(frequencies(n, bc=bc), T)
 
 
 def snapshot_logdet(n: int, bc: BC = "dd") -> float:
@@ -95,12 +107,28 @@ def snapshot_logdet(n: int, bc: BC = "dd") -> float:
 
 
 def bulk_energy_density() -> float:
-    """Continuum-of-modes bulk energy per unit length.
+    """Continuum-of-modes bulk energy per unit length at T=0.
 
     ω(k) = 2 |sin(k/2)|. Independent of the far-end boundary condition:
         (1/N) Σ_m (1/2) · 2 |sin(π m / N)| → (1/π) ∫_0^π sin u du = 2/π.
     """
     return 2.0 / PI
+
+
+def bulk_free_energy_density(T: float, n_k: int = 8000) -> float:
+    """Infinite-chain Helmholtz density at temperature T.
+
+    Average of T log(2 sinh(ω(k)/2T)) over the Brillouin zone, skipping the
+    measure-zero k=0 point. At T=0 this is 2/π.
+    """
+    if T < 0:
+        raise ValueError("temperature T must be nonnegative")
+    if T == 0:
+        return bulk_energy_density()
+    k = np.linspace(0.0, 2.0 * PI, n_k, endpoint=False)
+    omega = 2.0 * np.abs(np.sin(k / 2.0))
+    omega = omega[omega > 1e-12]
+    return float(T * np.mean(log_two_sinh(omega / (2.0 * T))))
 
 
 @dataclass(frozen=True)

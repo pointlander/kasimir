@@ -173,6 +173,54 @@ def plot_quiet_cavity(out: Path) -> None:
     plt.close(fig)
 
 
+def plot_matsubara(out: Path) -> None:
+    import matplotlib.pyplot as plt
+
+    a = np.linspace(0.4, 4.0, 250)
+    temps = (0.0, 0.08, 0.25)
+    colors = ("#1f4e79", "#c44e52", "#6a9955")
+
+    fig, axes = plt.subplots(1, 2, figsize=(9.4, 3.7))
+
+    ax = axes[0]
+    for T, col in zip(temps, colors):
+        f = np.array([spectral.free_energy_1d_dirichlet(ai, T) for ai in a])
+        label = r"$T=0$" if T == 0.0 else rf"$T={T}$"
+        ax.plot(a, f, color=col, lw=1.8, label=label)
+    ax.set_xlabel("interval length $a$")
+    ax.set_ylabel(r"$F(a,T)$")
+    ax.set_title("DD Helmholtz: $T\\to 0$ recovers $-\\pi/(24a)$")
+    ax.legend(frameon=False, fontsize=8)
+    ax.spines["top"].set_visible(False)
+    ax.spines["right"].set_visible(False)
+
+    ax = axes[1]
+    T = 0.08
+    ns = list(range(20, 121, 4))
+    a_lat = np.array([lattice.interval_length(n, "dd") for n in ns])
+    thermal_lat = np.array(
+        [lattice.helmholtz(n, T, "dd") - lattice.vacuum_energy(n, "dd") for n in ns]
+    )
+    thermal_c = []
+    for n, ai in zip(ns, a_lat):
+        omega_c = np.arange(1, n + 1, dtype=float) * np.pi / ai
+        thermal_c.append(
+            spectral.oscillator_helmholtz(omega_c, T) - 0.5 * float(omega_c.sum())
+        )
+    ax.plot(a_lat, thermal_lat, color="#1f4e79", lw=1.8, label="lattice chain")
+    ax.plot(a_lat, thermal_c, color="#c44e52", ls="--", lw=1.6, label="continuum modes")
+    ax.set_xlabel("interval length $a$")
+    ax.set_ylabel(r"$F(a,T)-E_{\mathrm{vac}}(a)$")
+    ax.set_title(rf"Thermal piece at $T={T}$")
+    ax.legend(frameon=False, fontsize=8)
+    ax.spines["top"].set_visible(False)
+    ax.spines["right"].set_visible(False)
+
+    fig.tight_layout()
+    _save(fig, out)
+    plt.close(fig)
+
+
 def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(description="Write Kasimir theory figures.")
     parser.add_argument(
@@ -185,6 +233,7 @@ def main(argv: list[str] | None = None) -> None:
     plot_1d_lattice(args.out / "1d-lattice.png")
     plot_reconstruction(args.out / "reconstruction.png")
     plot_quiet_cavity(args.out / "quiet-cavity.png")
+    plot_matsubara(args.out / "matsubara.png")
     print(f"wrote figures in {args.out.resolve()}")
 
 

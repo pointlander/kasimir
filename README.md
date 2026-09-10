@@ -12,7 +12,7 @@ Complete field histories are weighted by the Solomonoff–Levin measure \(\mu \p
 \kappa(a)=\lim_{\beta\to\infty}\frac{\ln 2}{\beta}\,\mathbb{E}\bigl[K(\varphi|_{[0,\beta]}\mid a)\bigr]_{\mathrm{ren}}\,.
 \]
 
-That rate is the Casimir energy. It is *not* the Kolmogorov complexity of a spatial snapshot (wrong spectral moment, \(\zeta'(0)\) instead of \(\zeta(-1)\)), nor the complexity of the state vector (a short program, independent of the \(1/a^{4}\) law).
+That rate is \(-\log\mu(C_a)\) per unit Euclidean time, equal to the Helmholtz free energy \(F(a,T)\) by the Matsubara lemma, and to the Casimir energy at \(T=0\). It is *not* the Kolmogorov complexity of a spatial snapshot or of a typical Euclidean sample (both are \(\zeta'(0)\), the entropy of the Gaussian), nor the complexity of the state vector (a short program, independent of the \(1/a^{4}\) law).
 
 ## The \(1/a^{4}\) law, before zeta functions
 
@@ -44,6 +44,7 @@ python paper/build_pdf.py          # writes paper/k-casimir.pdf
 - `figures/1d-lattice.png` — DD chain \(\to-\pi/24a\) (attractive); DN chain \(\to+\pi/48a\) (repulsive). Snapshot-complexity proxy tracks \(\log a\) instead.
 - `figures/reconstruction.png` — \(E=\Theta I_K\) and \(F=-d(\Theta I_K)/da\) recover \(\pi^{2}/720\) and \(\pi^{2}/240\).
 - `figures/quiet-cavity.png` — typical Gaussian-free-field snapshots with Dirichlet walls. The cavity is quieter; that is \(\langle\varphi^{2}\rangle\), not the energy the plates feel.
+- `figures/matsubara.png` — \(F(a,T)\to-\pi/(24a)\) as \(T\to 0\); lattice thermal piece matches continuum modes below the cutoff.
 
 ## What this is not
 

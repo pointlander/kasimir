@@ -15,6 +15,8 @@ from __future__ import annotations
 import math
 from typing import Literal
 
+import numpy as np
+
 PI = math.pi
 I_1D_NATS = -1.0 / 24.0
 I_1D_DN_NATS = 1.0 / 48.0
@@ -146,3 +148,79 @@ def reconstruct_force(
     e_plus = reconstruct_energy(a + da, dim=dim, area=area, hbar=hbar, c=c, bc=bc)
     e_minus = reconstruct_energy(a - da, dim=dim, area=area, hbar=hbar, c=c, bc=bc)
     return -(e_plus - e_minus) / (2.0 * da)
+
+
+def log_two_sinh(x: np.ndarray | float) -> np.ndarray:
+    """log(2 sinh x) for x>0, stable at both ends: x + log(1 - e^{-2x})."""
+    x_arr = np.asarray(x, dtype=float)
+    return x_arr + np.log1p(-np.exp(-2.0 * x_arr))
+
+
+def oscillator_helmholtz(
+    omega: np.ndarray, T: float, hbar: float = 1.0
+) -> float:
+    """F = T Σ log(2 sinh(ħω / 2T)), reducing to (ħ/2) Σ ω at T=0."""
+    omega = np.asarray(omega, dtype=float)
+    if T < 0:
+        raise ValueError("temperature T must be nonnegative")
+    if T == 0:
+        return 0.5 * hbar * float(omega.sum())
+    return float(T * np.sum(log_two_sinh(hbar * omega / (2.0 * T))))
+
+
+def _thermal_mode_sum(gaps: np.ndarray, T: float) -> float:
+    """T Σ log(1 - exp(-gap_n / T)). gaps are ħ ω_n."""
+    return T * float(np.log1p(-np.exp(-gaps / T)).sum())
+
+
+def _n_thermal_terms(a: float, T: float, hbar: float, c: float) -> int:
+    # Need n ħ π c / (a T) ≳ 40 for the tail to die.
+    return max(64, int(50.0 * a * T / (PI * hbar * c)) + 32)
+
+
+def free_energy_1d_dirichlet(
+    a: float, T: float, hbar: float = 1.0, c: float = 1.0
+) -> float:
+    """Zeta-regularised Helmholtz free energy of a 1D DD scalar.
+
+    F(a,T) = −π ħ c / (24 a) + T Σ_{n=1}^∞ log(1 − exp(−n π ħ c / (a T)))
+    """
+    if a <= 0:
+        raise ValueError("separation a must be positive")
+    if T < 0:
+        raise ValueError("temperature T must be nonnegative")
+    e0 = energy_1d_dirichlet(a, hbar=hbar, c=c)
+    if T == 0:
+        return e0
+    n = np.arange(1, _n_thermal_terms(a, T, hbar, c) + 1, dtype=float)
+    gaps = n * PI * hbar * c / a
+    return e0 + _thermal_mode_sum(gaps, T)
+
+
+def free_energy_1d_dirichlet_neumann(
+    a: float, T: float, hbar: float = 1.0, c: float = 1.0
+) -> float:
+    """Zeta-regularised Helmholtz free energy of a 1D DN scalar.
+
+    F(a,T) = +π ħ c / (48 a) + T Σ_{n=0}^∞ log(1 − exp(−(n+1/2) π ħ c / (a T)))
+    """
+    if a <= 0:
+        raise ValueError("separation a must be positive")
+    if T < 0:
+        raise ValueError("temperature T must be nonnegative")
+    e0 = energy_1d_dirichlet_neumann(a, hbar=hbar, c=c)
+    if T == 0:
+        return e0
+    n = np.arange(_n_thermal_terms(a, T, hbar, c), dtype=float)
+    gaps = (n + 0.5) * PI * hbar * c / a
+    return e0 + _thermal_mode_sum(gaps, T)
+
+
+def free_energy_1d(
+    a: float, T: float, bc: BC1D = "dd", hbar: float = 1.0, c: float = 1.0
+) -> float:
+    if bc == "dd":
+        return free_energy_1d_dirichlet(a, T, hbar=hbar, c=c)
+    if bc == "dn":
+        return free_energy_1d_dirichlet_neumann(a, T, hbar=hbar, c=c)
+    raise ValueError(f"unknown boundary conditions {bc!r}")

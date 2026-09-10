@@ -16,6 +16,10 @@ from .spectral import (
     modular_temperature,
     reconstruct_energy,
     reconstruct_force,
+    free_energy_1d_dirichlet,
+    free_energy_1d_dirichlet_neumann,
+    free_energy_1d,
+    oscillator_helmholtz,
 )
 
 __all__ = [
@@ -34,4 +38,8 @@ __all__ = [
     "modular_temperature",
     "reconstruct_energy",
     "reconstruct_force",
+    "free_energy_1d_dirichlet",
+    "free_energy_1d_dirichlet_neumann",
+    "free_energy_1d",
+    "oscillator_helmholtz",
 ]
